@@ -4,6 +4,7 @@ Make a plan, let others join, chat in the group, meet new people. Clubs run comm
 
 - **Try it:** `python3 serve.py`, then open http://localhost:5173 (best at phone width). No build step.
 - **Install it on an iPhone for free:** see [LAUNCH.md](LAUNCH.md). It is an installable web app (PWA), no App Store needed.
+- **Put it online for free:** `./scripts/make-deploy-folder.sh` builds a clean `deploy/` folder to upload (steps in LAUNCH.md).
 - **Two modes.** With `config.js` empty (the default) it is a **demo**: all data lives in one browser and simulated students
   move around. With a Supabase project URL and key in `config.js` it becomes the **real app**: real accounts, shared data
   between phones, live chat and live locations, all protected by the database rules in `supabase/`.

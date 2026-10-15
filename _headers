@@ -1,0 +1,14 @@
+# Safety headers for Cloudflare Pages and Netlify (they read this file as it is).
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), camera=(self), microphone=(), payment=()
+
+# the service worker and the settings must always be fresh, so updates reach phones quickly
+/sw.js
+  Cache-Control: no-cache
+/config.js
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache

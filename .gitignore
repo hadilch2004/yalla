@@ -10,3 +10,6 @@ wip/
 # Supabase CLI scratch files
 supabase/.temp/
 supabase/.branches/
+
+# the folder you upload to the web host (rebuilt by scripts/make-deploy-folder.sh)
+deploy/

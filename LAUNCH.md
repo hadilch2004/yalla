@@ -2,18 +2,25 @@
 
 Three stages. The first two are free. The third is the only one that costs money.
 
-## Stage 1: put it on iPhones for free (installable web app)
+## Stage 1: put it online for free (and installable on iPhones)
 
 Yalla is a PWA: it installs from Safari like an app (own icon, full screen, works offline), with no App Store and no fee.
+Putting it online also gives it the secure **https** address that live GPS needs.
 
-1. **Host the folder somewhere free.** It is a static site, so any of these work:
-   - **Netlify Drop**: sign up, drag the whole `Yalla` folder onto the page. Done in a minute.
-   - **Cloudflare Pages** or **GitHub Pages**: connect a repository containing this folder.
-   You get an `https://…` address. Service workers need HTTPS, and these provide it.
-2. **Set your support email.** Change `BRAND.support` in `app.js`, and fill the `[brackets]` in `privacy.html` and `terms.html`.
-3. **On an iPhone:** open the address in **Safari**, tap **Share**, then **Add to Home Screen**.
+1. **Build the upload folder:** `./scripts/make-deploy-folder.sh`. It creates `deploy/` with only what the app needs (no
+   database files, tests or notes) and stops if it finds a secret key in there.
+2. **Upload it to Cloudflare Pages** (free, no credit pool, sites do not sleep): sign up at dash.cloudflare.com, then
+   *Workers & Pages → Create → Pages → Upload assets*, name the project `yalla`, drag the `deploy` folder in, and click Deploy.
+   You get an address like `https://yalla-xxxx.pages.dev`. (Netlify Drop works too, but its free plan runs on monthly
+   "credits" and pauses your sites when they run out.)
+3. **Tell Supabase the address:** *Authentication → URL Configuration*: set **Site URL** to your new address and add it under
+   **Redirect URLs**. This makes the "forgot password" link come back to the right place.
+4. **On an iPhone:** open the address in **Safari**, tap **Share**, then **Add to Home Screen**.
+5. **To update later:** run the script again and upload the folder again (or connect the GitHub repository to Cloudflare so
+   every push updates the site by itself).
 
-Caveat: until Stage 2, every phone has its own separate data. It is a demo, not a social network yet.
+Before you share the address widely: set your real support email (`BRAND.support` in `app.js`) and fill the `[brackets]`
+in `privacy.html` and `terms.html`. Those pages are public and linked from the sign-up form.
 
 ## Stage 2: make it real (still free)
 

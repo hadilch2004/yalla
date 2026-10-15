@@ -1434,10 +1434,10 @@ function meView() {
   const n = metN(me.id), t = tierOf(n), vibe = myVibe(me), fol = (me.following || []).map(id => user(id)).filter(Boolean);
   return `
   <div class="top"><button class="ib" data-a="tab" data-t="home" aria-label="Back">${icon('back')}</button><div class="brand"></div></div>
-  <div class="me-head">${av(me, 92)}<h2>${esc(me.name)}</h2>
-    <p style="margin-top:4px;font-weight:800;color:var(--ink)">${me.major || isAlumni(me) || me.year ? subline(me) : `<button class="linkbtn" data-a="editProfile">Add your major</button>`}</p>
+  <div class="me-head">${av(me, 92)}<h2>${nm(me)}</h2>
+    <p style="margin-top:4px;font-weight:800;color:var(--ink)">${isCreator(me) ? 'Creator of Yalla' : me.major || isAlumni(me) || me.year ? subline(me) : `<button class="linkbtn" data-a="editProfile">Add your major</button>`}</p>
     <p>${esc(me.email)}</p>
-    <p style="margin-top:8px"><span class="tag">${t.e} ${t.n}</span>${isAlumni(me) ? ' <span class="tag alum">🎓 Alumni</span>' : ''}</p>
+    <p style="margin-top:8px">${isCreator(me) ? '<span class="tag creator-tag">✔ Creator</span>' : `<span class="tag">${t.e} ${t.n}</span>`}${badgeOf(me) === 'butterfly' ? ' <span class="tag bfly-tag">🦋 Butterfly</span>' : ''}${isAlumni(me) ? ' <span class="tag alum">🎓 Alumni</span>' : ''}</p>
     <button class="btn soft" style="margin-top:12px;padding:9px 16px" data-a="editProfile">✏️ Edit profile</button></div>
   <div class="stats">
     <div class="stat"><b>${db.hangouts.filter(h => h.members.includes(me.id)).length}</b><small>hangouts</small></div>

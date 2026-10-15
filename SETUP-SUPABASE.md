@@ -63,7 +63,7 @@ Those give full access to everyone's data. If one ever lands in GitHub or a chat
 
 ## 5. After people sign up
 
-Run these in **SQL Editor** (replace the email):
+Day-to-day jobs, none of them needed until the situation comes up. Run SQL in the **SQL Editor** (left menu → New query).
 
 **The Creator badge** (one account only, pinned on every screen with a "Chat with the creator" link): open
 `supabase/migrations/002_creator.sql`, check the email in it is the right account, paste it into the SQL Editor and Run.
@@ -78,8 +78,9 @@ update public.profiles set club_approved = true where kind = 'club' and name = '
 **Reading reports**: *Table Editor → reports*. To act on one, open *Authentication → Users* to ban the account,
 and delete the offending message or post in the matching table. Apple expects you to act within about a day.
 
-**Clearing expired live locations** (they are already hidden once expired, this just tidies the table):
-*Database → Extensions* → enable `pg_cron`, then run
+**Clearing expired live locations** (optional, you can skip it): expired positions are already hidden from everybody, and the
+table holds at most one row per person, so it never grows. If you still want it tidy: *Database → Extensions* → enable
+`pg_cron`, then run
 `select cron.schedule('yalla-clean-locations', '*/10 * * * *', 'select public.cleanup_expired_locations()');`
 
 ## 6. What the free plan means
@@ -87,7 +88,8 @@ and delete the offending message or post in the matching table. Apple expects yo
 - Database 500 MB and 1 GB of photos are plenty for a campus pilot. Check the current numbers on Supabase's pricing page.
 - A free project **pauses after about 7 days without activity**. Open the dashboard and click *Restore*. A pilot used daily never pauses.
 - The free plan has **no automatic backups**. Export your data now and then (*Database → Backups* or `pg_dump`).
-- If you ever start over while developing: run `supabase/dev-reset.sql`, then `001_schema.sql` again. That erases all data.
+- **Never run `supabase/dev-reset.sql` on your real project once anybody has signed up.** It deletes every table and all the
+  people's data. It exists only for a throwaway project while developing (reset, then run `001_schema.sql` again).
 
 ## Security notes
 
