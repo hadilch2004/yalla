@@ -1033,6 +1033,24 @@ function photoRow(pv, scope, big = false) {
 }
 const colorRow = (cur, a) => `<div class="picker colors" style="margin-top:10px">${AVATAR_COLORS.map(c => `<button type="button" data-a="${a}" data-v="${c}" style="--c:${c}" class="${cur === c ? 'on' : ''}" aria-label="colour ${c}"></button>`).join('')}</div>`;
 
+// ───── installing on a phone ─────
+// Yalla is a web app: open the link once in the phone's browser and install it. It then has its own icon, opens full screen with
+// no address bar and works offline. No store and no fee. (A native store app needs an Apple developer account for iPhones.)
+let installEvent = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvent = e; if (!ui.chat && !ui.sheet) render(); });
+addEventListener('appinstalled', () => { installEvent = null; if (!ui.chat && !ui.sheet) render(); });
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isAndroid = () => /android/i.test(navigator.userAgent);
+const isIOS = () => !isAndroid() && (/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)); // iPads can pose as Macs
+const isPhone = () => isIOS() || isAndroid();
+const installHidden = () => { try { return localStorage.getItem('yalla.hideInstall') === '1'; } catch { return false; } };
+function installHint(inRow = false) {
+  if (isStandalone() || !isPhone() || installHidden()) return '';
+  const how = installEvent ? 'Install Yalla on your phone. No store needed.'
+    : isIOS() ? 'Tap <b>Share</b> (the square with an arrow), then <b>Add to Home Screen</b>.'
+    : 'Open the browser menu <b>⋮</b>, then tap <b>Install app</b> or <b>Add to Home screen</b>.';
+  return `<div class="install ${inRow ? 'inrow' : ''}"><span class="ic">📲</span><div class="mid"><b>Get the Yalla app</b><small>${how}</small></div>${installEvent ? '<button type="button" class="btn primary" data-a="installApp">Install</button>' : ''}<button type="button" class="x" data-a="hideInstall" aria-label="Hide this">✕</button></div>`;
+}
 // shown after someone follows the link in a "forgot password" email
 function recoveryView() {
   return `<div class="auth"><div class="auth-hero"><img src="logo.svg" alt="${BRAND.name} logo"><h1>${BRAND.name}</h1><p>Choose a new password.</p></div>
@@ -1085,6 +1103,7 @@ function authView() {
       <h1>${BRAND.name}</h1>
       <p>${hero}</p>
     </div>
+    ${installHint()}
     <form class="auth-card" data-form="auth" autocomplete="on">
       <div class="seg">
         <button type="button" data-a="authMode" data-m="login" class="${s ? '' : 'on'}">Log in</button>
@@ -1587,6 +1606,7 @@ function safetyHtml() {
   return `<div class="sec"><h3>Safety & support</h3></div>
   <button class="row-item" data-a="openGuidelines"><span class="tile sm" style="--c:#14b8a6">🛡️</span><span class="mid"><b>Community guidelines</b><small>How we keep Yalla friendly</small></span></button>
   ${isClub(me) ? '' : `<button class="row-item" data-a="openBlocked"><span class="tile sm" style="--c:#64748b">🚫</span><span class="mid"><b>Blocked people</b><small>${nb} blocked</small></span></button>`}
+  ${installHint(true)}
   ${CLOUD && !ui.actor ? `<button class="row-item" data-a="changePassword"><span class="tile sm" style="--c:#8b5cf6">🔑</span><span class="mid"><b>Change password</b><small>Choose a new one for ${esc(me.email || 'your login')}</small></span></button>` : ''}
   <a class="row-item linkrow" href="mailto:${esc(BRAND.support)}"><span class="tile sm" style="--c:#3b82f6">✉️</span><span class="mid"><b>Contact support</b><small>${esc(BRAND.support)}</small></span></a>
   <p class="legal"><a href="privacy.html" target="_blank" rel="noopener">Privacy policy</a> · <a href="terms.html" target="_blank" rel="noopener">Terms of use</a></p>`;
@@ -2013,6 +2033,8 @@ const actions = {
   logout: () => { if (CLOUD) Cloud.signOut(); try { localStorage.removeItem(SKEY); } catch { /* ignore */ } stopSim(); unwatchLive(); $('#toasts').innerHTML = ''; ui.actor = null; me = null; ui.chat = null; ui.sheet = null; ui.authMode = 'login'; refresh(); },
   openGuidelines: () => openSheet({ type: 'guidelines' }),
   changePassword: () => openSheet({ type: 'password', form: { cur: '', pw: '', pw2: '' } }),
+  installApp: async () => { if (!installEvent) return; installEvent.prompt(); try { await installEvent.userChoice; } catch { /* ignore */ } installEvent = null; render(); },
+  hideInstall: () => { try { localStorage.setItem('yalla.hideInstall', '1'); } catch { /* ignore */ } render(); },
   openBlocked: () => openSheet({ type: 'blocked' }),
   reportUser: d => openSheet({ type: 'report', form: { kind: 'user', id: d.id, userId: d.id, reason: '', details: '', alsoBlock: false } }),
   reportClub: d => openSheet({ type: 'report', form: { kind: 'club', id: d.id, userId: d.id, reason: '', details: '' } }),

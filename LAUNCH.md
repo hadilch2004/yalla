@@ -47,6 +47,15 @@ When you host the app, upload only the app files (`index.html`, `app.js`, `cloud
 files out. Use a **private** GitHub repository if you like: Netlify and Cloudflare Pages deploy from private repositories
 for free, and they give you the https address live GPS needs.
 
+## Getting it onto phones: what each option costs
+
+| Phone | Free | Paid |
+|---|---|---|
+| **iPhone** | Open the web address in Safari once, then Share → **Add to Home Screen**. It becomes an app icon, opens full screen and works offline. Yalla shows an "Get the Yalla app" card that explains this. | **$99 a year** (Apple Developer): App Store, or TestFlight with a public invite link. Apple has no way to install a native app from a website outside the EU, and Morocco is not in the EU. |
+| **Android** | The same install from Chrome (an "Install" button appears). A native `.apk` file people download and tap can also be built for free (needs the Android tools on this Mac, about 3-5 GB). | **$25 once** for Google Play. |
+
+A native app (App Store, Play Store, `.apk`) is the same web app wrapped with Capacitor, so everything built so far carries over.
+
 ## Stage 3: the App Store (costs money)
 
 There is **no free way** onto the App Store. The Apple Developer Program costs **$99 a year** (waived only for registered

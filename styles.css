@@ -454,6 +454,15 @@ svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-widt
 .bdg.bfly { background: linear-gradient(135deg, #ffb6d5, #ff7eb3); box-shadow: 0 0 0 2px #ffe6f0; }
 .tag.creator-tag { background: linear-gradient(135deg, #ffe9a8, #ffc27a); color: #6b3d00; }
 .tag.bfly-tag { background: #ffe0ee; color: var(--pri-deep); }
+.install { display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 12px 14px; border-radius: 22px; background: #fff; box-shadow: var(--pop); text-align: left; }
+.install.inrow { margin: 10px 0 4px; }
+.install .ic { font-size: 26px; }
+.install .mid { flex: 1; min-width: 0; }
+.install b { font-weight: 900; font-size: 15px; }
+.install small { display: block; margin-top: 2px; color: var(--mute); font-weight: 700; font-size: 12.5px; line-height: 1.35; }
+.install small b { font-size: inherit; color: var(--ink); }
+.install .btn { padding: 8px 14px; }
+.install .x { flex: none; width: 28px; height: 28px; border-radius: 50%; color: var(--mute); font-size: 14px; }
 .cbar { display: flex; align-items: center; gap: 12px; width: 100%; margin: 14px 0 2px; padding: 10px 14px; border-radius: 22px; background: linear-gradient(100deg, #fff1bf, #ffd6e7); box-shadow: var(--pop); text-align: left; }
 .cbar .mid { flex: 1; min-width: 0; }
 .cbar b { font-weight: 900; font-size: 15.5px; }
