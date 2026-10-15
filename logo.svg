@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Yalla logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFA3C9"/>
+      <stop offset="1" stop-color="#FF6FA8"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="36" fill="url(#g)"/>
+  <!-- the Y: two people leaning in to meet -->
+  <path d="M40 56 L64 84 L88 56" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M64 84 V104" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="37" cy="36" r="12" fill="#FFD84D"/>
+  <circle cx="91" cy="36" r="12" fill="#fff"/>
+</svg>

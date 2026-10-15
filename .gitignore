@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+.env
+.env.*
+# old snapshots and local tool settings
+wip/
+.claude/
+# never commit secrets: the Supabase service_role / secret key and the database password stay out of this folder
+
+# Supabase CLI scratch files
+supabase/.temp/
+supabase/.branches/
