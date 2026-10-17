@@ -15,7 +15,9 @@
     try { if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) dev = JSON.parse(localStorage.getItem('yalla.dev.config') || 'null'); } catch { /* ignore */ }
     return { ...base, ...(dev || {}) };
   })();
-  if (!CFG.supabaseUrl || !CFG.supabaseKey || !window.supabase) { window.Cloud = { enabled: false }; return; }
+  // a link ending in ?demo opens the full demo (sample students, no sign-up, everything stays in the visitor's browser)
+  const demoLink = /[?&]demo(=|&|$)/.test(location.search);
+  if (demoLink || !CFG.supabaseUrl || !CFG.supabaseKey || !window.supabase) { window.Cloud = { enabled: false }; return; }
 
   const sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: 'yalla.auth' },

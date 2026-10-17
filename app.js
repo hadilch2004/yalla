@@ -1,10 +1,10 @@
 'use strict';
 /* Yalla — hangout app prototype for campus communities.
    Front-end only: data lives in localStorage so the whole thing can be clicked through
-   without a server. See README.md for what has to change to make it real. */
+   without a server. See docs/DEVELOPMENT.md for how it works and what is mocked in demo mode. */
 
 // ───────────────────────── config ─────────────────────────
-const BRAND = { name: 'Yalla', tagline: "Let's hang.", support: 'support@example.com' }; // put your real support email here before launch
+const BRAND = { name: 'Yalla', tagline: "Let's hang.", support: 'hadilappsupport@gmail.com' }; // shown in the app (Safety & support) and the policy pages
 const SEED_MAIL = 'example.com'; // demo accounts use this reserved test domain
 const CLOUD = !!window.Cloud?.enabled; // true when config.js holds Supabase keys: real accounts and shared data (see cloud.js)
 const DEMO = { enabled: !CLOUD, email: 'demo@example.com', password: 'yalla-demo-1' }; // prototype-only quick login
@@ -2988,6 +2988,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && ui.sheet) 
 
 // ───────────────────────── boot ─────────────────────────
 load().then(() => {
+  // the portfolio link (?demo) goes straight into the demo account: no sign-up needed to look around
+  if (!CLOUD && !me && /[?&]demo(=|&|$)/.test(location.search) && user('u_demo')) { me = user('u_demo'); try { localStorage.setItem(SKEY, me.id); } catch { /* ignore */ } }
   render();
   if (me) { markActive(me); checkBadges(me); welcomeToast(); startSim(); }
 });

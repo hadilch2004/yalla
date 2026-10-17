@@ -1,103 +1,141 @@
-# Yalla: hang out on campus (prototype)
+# Yalla: hang out on campus
 
-Make a plan, let others join, chat in the group, meet new people. Clubs run communities and post events for their followers.
+A mobile-first social app for university students: **see where your friends are on a live campus map, start or join a hangout, chat in the group, and follow clubs.** Privacy comes first: everyone starts in *ghost mode*, and your location is only ever visible to mutual friends you chose.
 
-- **Try it:** `python3 serve.py`, then open http://localhost:5173 (best at phone width). No build step.
-- **Install it on an iPhone for free:** see [LAUNCH.md](LAUNCH.md). It is an installable web app (PWA), no App Store needed.
-- **Put it online for free:** `./scripts/make-deploy-folder.sh` builds a clean `deploy/` folder to upload (steps in LAUNCH.md).
-- **Two modes.** With `config.js` empty (the default) it is a **demo**: all data lives in one browser and simulated students
-  move around. With a Supabase project URL and key in `config.js` it becomes the **real app**: real accounts, shared data
-  between phones, live chat and live locations, all protected by the database rules in `supabase/`.
-  Setup: [SETUP-SUPABASE.md](SETUP-SUPABASE.md). The demo keeps working as it always did.
-- **Status:** the real mode is built and was tested end to end in a browser against a local copy of the database rules
-  (sign-up, login, password reset, profile and photo, hangouts, group and private chat, besties, live location, ghost mode,
-  clubs, communities, heads, co-hosting, blocking, reports, silent account deletion). It has not run on a real Supabase
-  project yet: that needs your project and its keys.
+Built for the Al Akhawayn University community in Ifrane, Morocco. It installs on a phone like an app (iPhone and Android) and runs on a free stack.
 
-In demo mode, sign up with any email address or use **Try the demo account** (its login is in the `DEMO` constant in `app.js`).
-In real mode there is no demo button.
+<p align="center"><img src="docs/screenshots/overview.jpg" alt="Yalla on a phone: the map, hangouts, group chat, live location and a club dashboard" width="100%"></p>
 
-## What works
+## Try it
 
-**Map (home screen)**, free OpenStreetMap-based tiles (OpenFreeMap), no account or key
-- Colour-coded spot pins, hangouts as bigger pins with the attendee count, besties and you as avatar rings (Bump style)
-- **Exact positions**: besties walk around live with a dotted trail, events sit at the exact point they were pinned.
-  Tap the map to pin an event or to drop a pin for yourself. Drag the map, zoom with + / −
-- Halo avatars, **LIVE** badges, status bubbles, 🌙 for idle friends, group bubbles, a blue route and "Arrive in 2 min"
-  card for a bestie, and a hex **scratch map** that clears around places you have been
-- Drag-up bottom sheet (map only / peek / half / full), floating search, activity filters, big place headline
+| | |
+|---|---|
+| **Demo, one click, no sign-up** | **https://yalla-afk.pages.dev/?demo** (sample students and clubs; everything stays in your browser) |
+| **The real app** | https://yalla-afk.pages.dev (create an account; data lives in a real database shared by everyone) |
+| **Put it on your phone** | Open the link in Safari (iPhone) or Chrome (Android) and choose **Add to Home Screen**. It opens full screen, like an app, and works offline. |
 
-**People**
-- Email + password. In real mode: "Forgot your password?" on the login screen, and **Change password** in the Me tab. Photos, not emoji: upload one or take a selfie, otherwise you get your initial on a colour
-- Major, year, 🎓 Alumni after graduation, favourite spots, a funny "Yalla take" on your profile (remix, hide, clear history)
-- **Who viewed your profile**: a list in *Me* with the time and visit count. *Private browsing* hides you from other people's
-  lists, and then you cannot see your own either
-- Ghost mode (the default) hides where you are **and** which events you join. Sharing is opt-in, mutual, with an option
-  to share only the campus spot instead of your exact position
-- **📡 Live location**: the phone's GPS follows you on the map while the app is open (see the limits below). It only works on and
-  near campus, you pick 1, 4 or 8 hours and it stops by itself, then you are back in ghost mode. Leaving campus hides you.
-  Very rough fixes are ignored, and standing still sends nothing. Exact or spot-only sharing
-- "Friend nearby 📍" and "bestie is going 🙌" notifications
-- **Creator** account (Hadil) with the one ✔ Creator badge, pinned on every main screen. 🦋 **Butterfly** badge for people
-  who meet lots of people *and* use the app regularly. Everyone else has no badge
+On a computer the app opens inside a phone-sized frame, so it looks the same everywhere.
 
-**Clubs**
-- Sign-up asks first: student or club. Different forms, a different colour world (pink / orange), different tabs
-- Clubs **create events, they never join them**. Events are visible only to followers (and co-hosting clubs' followers)
-- **Community** per club: News for followers; Chat, Ideas (suggestions with votes) and the member list for **accepted
-  members** only. ⭐ **Heads** (the owners, with roles) run it, several people can run one club
-- Club profile with tagline, summary, meeting time, photo gallery. Clubs can **collaborate** on events
-- Pending verification badge until the team approves a club
+## What it does
 
-**Safety (what app stores require)**
-- **Report** a person, message, event or club, and **block** people. Blocked people cannot message you, see you on the map,
-  or view your profile, and their messages are hidden
-- Community guidelines, support contact, privacy policy and terms (templates in `privacy.html` / `terms.html`)
-- 16+ confirmation and terms checkbox at sign-up
-- **Delete my account** (students and clubs): removes the profile, photos, location history, chats, memberships,
-  visitors, notifications. Events you host are cancelled. Reports about you stay for safety, without the content
-- **Deleting is silent**: nobody is notified. Besties, followers and group members just stop seeing the account, and no
-  "left" or "deleted" message appears anywhere
+- **Live map** of campus in the style of the Bump app: friends as avatars, hangouts as pins, a hex "scratch map" that clears as you explore, and a route and ETA to a friend.
+- **Hangouts and group chat.** Post a plan (coffee, football, study, hike), friends join, and the group gets a chat with stickers and private messages.
+- **Besties and live location.** Mutual besties see each other on the map; GPS follows you while the app is open, for 1, 4 or 8 hours, then switches itself off. "Friend nearby" and "your bestie is going to..." alerts.
+- **Ghost mode by default.** Hides your location and which events you join. Optional "share only the campus spot, not my exact position".
+- **Clubs and communities.** Clubs post events to their followers, run a community (news, member chat, an ideas box with votes), show a photo gallery, have several starred heads, and can co-host events with other clubs.
+- **A taste model.** "Picked for you" learns from what you join and ignore and explains every pick ("Lina, your bestie, is going").
+- **Badges and ranks.** A single ✔ Creator badge, a 🦋 Butterfly badge earned by meeting people *and* using the app regularly, and tiers by how many people you have met.
+- **Safety.** Report people, messages, events and clubs; block (in both directions, invisibly); a "who viewed my profile" list with private browsing; account deletion that is complete and **silent** (nobody is notified).
 
-**Hangouts and chat**: start a hangout, join it, group chat, private chats, stickers, ranks and tiers, "Picked for you"
-recommendations that learn your taste, and notifications.
+## Screens
 
-## Demo mode versus real mode
+<table>
+<tr>
+<td align="center"><img src="docs/screenshots/01-map.jpg" width="190"><br><sub>Live campus map with friends, hangouts and the scratch map</sub></td>
+<td align="center"><img src="docs/screenshots/02-hangouts.jpg" width="190"><br><sub>Hangouts, with "Picked for you" and the reasons why</sub></td>
+<td align="center"><img src="docs/screenshots/03-route-to-bestie.jpg" width="190"><br><sub>Route and ETA to a friend</sub></td>
+<td align="center"><img src="docs/screenshots/04-hangout.jpg" width="190"><br><sub>A hangout: who is going, why it suits you</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/screenshots/05-group-chat.jpg" width="190"><br><sub>Group chat with stickers</sub></td>
+<td align="center"><img src="docs/screenshots/06-friends.jpg" width="190"><br><sub>Besties, most hung out with, clubs</sub></td>
+<td align="center"><img src="docs/screenshots/07-ranks.jpg" width="190"><br><sub>Ranks and the Butterfly badge</sub></td>
+<td align="center"><img src="docs/screenshots/20-start-a-hangout.jpg" width="190"><br><sub>Starting a hangout</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/screenshots/08-live-location.jpg" width="190"><br><sub>Live location: 1, 4 or 8 hours, then it stops</sub></td>
+<td align="center"><img src="docs/screenshots/09-ghost-mode.jpg" width="190"><br><sub>Ghost mode: nobody sees you</sub></td>
+<td align="center"><img src="docs/screenshots/10-profile.jpg" width="190"><br><sub>Profile, badge progress, clubs you manage</sub></td>
+<td align="center"><img src="docs/screenshots/11-profile-privacy.jpg" width="190"><br><sub>"How others see you" and your taste</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/screenshots/12-creator-profile.jpg" width="190"><br><sub>The one ✔ Creator account</sub></td>
+<td align="center"><img src="docs/screenshots/13-club-profile.jpg" width="190"><br><sub>A club: about, heads, followers</sub></td>
+<td align="center"><img src="docs/screenshots/14-club-community.jpg" width="190"><br><sub>A club community: news, chat, ideas</sub></td>
+<td align="center"><img src="docs/screenshots/15-club-account.jpg" width="190"><br><sub>A club's own orange dashboard, with a co-host invite</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/screenshots/16-club-admin.jpg" width="190"><br><sub>Club profile and admin tools</sub></td>
+<td align="center"><img src="docs/screenshots/17-login.jpg" width="190"><br><sub>Login, with the "install the app" card</sub></td>
+<td align="center"><img src="docs/screenshots/18-signup-choose.jpg" width="190"><br><sub>Sign up as a student or as a club</sub></td>
+<td align="center"><img src="docs/screenshots/19-signup-club.jpg" width="190"><br><sub>Club sign-up</sub></td>
+</tr>
+</table>
 
-| | Demo (no keys in `config.js`) | Real (Supabase keys in `config.js`) |
-|---|---|---|
-| Data | `localStorage`, one browser | A Supabase database shared by everyone, with row level security |
-| Login | Passwords hashed in the browser | Supabase Auth: password login, password reset by email, optional email confirmation |
-| People | Seeded students chat, walk around, view your profile | Real people |
-| Chat and positions | Simulated | Real, with live updates (realtime where available, otherwise a 5 second refresh) |
-| Photos | Embedded in the page data | Stored files with public links (profile pictures, club logos and galleries) |
-| Notifications | In-app, simulated | Created by the database (bestie requests, "bestie is going", club requests, co-host invites, new followers, ideas) |
-| Club approval, Creator badge, Butterfly badge | Flags | Set only on the server |
-| Reports | Saved in the browser | A table you read in the Supabase dashboard |
+## How it is built
 
-Still to do for real mode: push notifications (when the app is closed), a moderation dashboard, and the things in
-[NEXT-STEPS.md](NEXT-STEPS.md). Placeholders to replace: `support@example.com` and the `[brackets]` in the policy pages.
+```mermaid
+flowchart LR
+  subgraph Phone["Phone: installed web app (PWA)"]
+    UI["app.js: screens, map, taste model"]
+    Sync["cloud.js: sync layer"]
+    SW["Service worker: offline"]
+    UI --- Sync
+  end
+  CF["Cloudflare Pages: static files, deployed from GitHub"]
+  subgraph SB["Supabase (free plan)"]
+    Auth["Auth: sign-up, login, password reset"]
+    DB[("Postgres with Row Level Security")]
+    ST["Storage: photos"]
+    RT["Realtime"]
+  end
+  Tiles["OpenFreeMap tiles (OpenStreetMap data)"]
+  CF -->|"HTML, JS, CSS"| Phone
+  Sync -->|"REST with the user's JWT"| DB
+  Sync --> Auth
+  Sync --> ST
+  RT -->|"changes"| Sync
+  UI --> Tiles
+```
 
-## Live location: what a web app can and cannot do
+- **No build step.** Plain HTML, CSS and JavaScript (about 3,000 lines in `app.js`, 750 in `cloud.js`). Leaflet and MapLibre GL draw the map; the Supabase client talks to the backend. Libraries are vendored, so there is no CDN dependency at runtime.
+- **Two modes from one codebase.** With `config.js` empty the app is a self-contained **demo** (seeded students who chat, walk around campus and join events). With a Supabase URL and public key it becomes the **real app**. `cloud.js` fills the app's in-memory data from the server and sends each action to the right table.
+- **Free-tier aware.** The sync layer asks the server for a tiny fingerprint of "what changed" every few seconds and only downloads the big lists when it differs; realtime pushes changes, with polling as a fallback.
+- **Continuous deployment.** Pushing to `main` triggers a Cloudflare Pages build that runs `scripts/make-deploy-folder.sh`, which assembles only the public files and **stops if it finds a secret key**.
 
-- Works only while Yalla is **open and on screen**. iPhone Safari and installed web apps pause GPS when you lock the phone or
-  switch apps. The app pauses and resumes the watch for you, and others see "last seen" times
-- Needs the secure **https** address. The Wi-Fi test link (`http://`) cannot use GPS. Use "Drop a pin" there
-- True background tracking (positions while the phone is in your pocket) needs a native iPhone app with "Always" location
-  permission, which costs battery, gets extra App Review scrutiny and needs the paid Apple account. Start without it
+## Privacy and security by design
 
-## Free stack and licences
+The rules live in the database, not in the browser, so a modified client cannot get around them (`supabase/migrations/001_schema.sql`: 19 tables, 61 row level security policies, 43 functions).
 
-- Map tiles: [OpenFreeMap](https://openfreemap.org) (free, no key). Data © OpenStreetMap contributors (ODbL). Fallback: plain OpenStreetMap tiles.
-  The place names on the map come from OpenStreetMap. Change `MAP_STYLE` in `app.js` for a different look
-- Libraries in `vendor/` (see `vendor/README.md`): Leaflet 1.9.4, MapLibre GL JS 5.24.0, maplibre-gl-leaflet 0.1.3
-- Fonts: Nunito and Anton from Google Fonts (host them yourself if you want no third-party requests)
-- Place coordinates come from OpenStreetMap plus a few approximate points. The sample clubs and students are placeholders
+| Rule | How it is enforced |
+|---|---|
+| Ghost mode is the default | `profiles.share_loc = false`; every location and attendee rule checks it; turning it on deletes your stored position |
+| Location only for **mutual** besties, expiring, near campus | `locations` policy plus a trigger: 8 hours at most, within 3 km of campus |
+| Private settings are invisible to everyone else | Column-level grants; only `my_settings()` returns your own switches |
+| The app can never grant itself badges, notifications or system messages | Those columns have no write permission for browsers; triggers write them |
+| Blocking works both ways and the blocked person is never told | `is_blocked()` inside every policy; `blocks` readable only by the blocker |
+| Account deletion is silent and complete | `delete_my_account()`: cascade delete, no notification is created for anyone; reports about the person stay, without their content |
+| Sign-up requires the 16+ and terms confirmation | Enforced in the database trigger, not only in the form |
 
-## Files
+## Tests
 
-`index.html`, `styles.css`, `app.js` (the app) · `manifest.webmanifest`, `sw.js`, `icons/` (install on a phone, work offline) ·
-`config.js` (backend keys) · `cloud.js` (the real-mode layer) · `privacy.html`, `terms.html` · `vendor/` ·
-`serve.py` (dev server, caching off) · `supabase/` (database, tests, local test backend) ·
-`SETUP-SUPABASE.md` · `LAUNCH.md` · `NEXT-STEPS.md` ·
-`wip/` (old snapshots, safe to delete)
+**303 automated checks**, all passing, including attempts to break the rules (stealing the Creator badge, reading a stranger's location, joining a club event as a non-follower, forging a system message):
+
+- `supabase/tests/run-tests.sh`: 230 checks against a throwaway Postgres, acting as different users.
+- `supabase/tests/run-rest-tests.sh`: 73 checks through PostgREST with the real Supabase client. It also runs **every query found in `cloud.js`**, so the app and the schema cannot drift apart.
+- `supabase/tests/dev-stack.sh`: a local test backend (Postgres, PostgREST and a small fake of the login and storage services) so the real UI can be driven in a browser without any account.
+
+The tests found real mistakes that code review had missed: a new event that could not be read back after creating it, a location save refused by a column lock, a notification leak for blocked people, and a privacy gap in profile columns.
+
+## Run it locally
+
+```bash
+python3 serve.py          # http://localhost:5173 , demo mode, no build, no account
+```
+
+Real mode needs a free Supabase project: see [docs/SETUP-SUPABASE.md](docs/SETUP-SUPABASE.md). Hosting and phone installs: [docs/LAUNCH.md](docs/LAUNCH.md). How everything works and what is still to do: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md), [docs/NEXT-STEPS.md](docs/NEXT-STEPS.md).
+
+## Status and honest limits
+
+Working end to end and ready for a campus pilot. Known limits:
+
+- **Location works only while the app is open.** A web app cannot track in the background; that would need a native app and an Apple Developer account ($99 a year). Installing from the home screen is the free route on iPhone.
+- **Push notifications are not built yet** (alerts appear inside the app).
+- **Sign-up is open** and email confirmation is off for the pilot; a free email sender needs a domain, so confirmation is the next step before a public launch.
+- The privacy policy and terms are a template and need a lawyer's review before a wide launch.
+
+## Credits
+
+Map data © OpenStreetMap contributors, tiles by OpenFreeMap. Libraries: Leaflet, MapLibre GL JS, supabase-js. Developed with [Claude Code](https://claude.com/claude-code) as an AI pair programmer; product decisions, testing and deployment by the author.
+
+**Author:** Hadil Chafik, AI & Computer Engineering student at Al Akhawayn University · [GitHub @hadilch2004](https://github.com/hadilch2004) · [LinkedIn](https://www.linkedin.com/in/hadil-chafik-779a86249/)

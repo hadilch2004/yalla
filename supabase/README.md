@@ -1,6 +1,6 @@
 # Yalla database
 
-- `migrations/001_schema.sql` creates everything. Run it once in the Supabase SQL Editor (see ../SETUP-SUPABASE.md).
+- `migrations/001_schema.sql` creates everything. Run it once in the Supabase SQL Editor (see ../docs/SETUP-SUPABASE.md).
 - `dev-reset.sql` erases it all (development only).
 - `tests/run-tests.sh` loads the schema into a throwaway local Postgres and runs 230 checks as different people,
   including attempts to break the rules. Run it after every change to the schema.
