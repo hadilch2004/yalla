@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=deploy
 rm -rf "$OUT"; mkdir "$OUT"
-cp index.html app.js cloud.js config.js styles.css sw.js manifest.webmanifest logo.svg privacy.html terms.html get.html robots.txt sitemap.xml og-image.jpg _headers "$OUT/"
+cp index.html app.js cloud.js config.js styles.css sw.js manifest.webmanifest logo.svg privacy.html terms.html get.html robots.txt sitemap.xml og-image.jpg googlea70a0b92ecfc78de.html _headers "$OUT/"
 cp -R icons img vendor "$OUT/"
 find "$OUT" -name '.DS_Store' -delete
 
