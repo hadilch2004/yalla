@@ -1118,6 +1118,7 @@ function authView() {
       <p class="hint">Sign up with any email address.${club ? ' New clubs show as "pending verification" until the Yalla team approves them.' : ''}</p>
       ${DEMO.enabled ? `<p class="hint">Just looking around? <button type="button" class="linkbtn" data-a="demo">Try the demo account</button></p>` : ''}
     </form>
+    <p class="legal"><a href="get.html" target="_blank" rel="noopener">About Yalla and how to install it</a></p>
   </div>`;
 }
 

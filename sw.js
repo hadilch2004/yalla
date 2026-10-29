@@ -1,9 +1,9 @@
 // Service worker: lets Yalla open offline after the first visit.
 // Same-origin files go network-first (so updates show up), with the cache as the offline fallback.
 // Map tiles, fonts and other sites are never cached here.
-const CACHE = 'yalla-shell-v2';
+const CACHE = 'yalla-shell-v3';
 const SHELL = [
-  './', 'index.html', 'styles.css', 'app.js', 'cloud.js', 'config.js', 'logo.svg', 'manifest.webmanifest', 'privacy.html', 'terms.html',
+  './', 'index.html', 'styles.css', 'app.js', 'cloud.js', 'config.js', 'logo.svg', 'manifest.webmanifest', 'privacy.html', 'terms.html', 'get.html',
   'vendor/leaflet.js', 'vendor/leaflet.css', 'vendor/maplibre-gl.js', 'vendor/maplibre-gl.css', 'vendor/leaflet-maplibre-gl.js', 'vendor/supabase.js',
   'icons/icon-192.png', 'icons/apple-touch-icon.png',
 ];

@@ -6,8 +6,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=deploy
 rm -rf "$OUT"; mkdir "$OUT"
-cp index.html app.js cloud.js config.js styles.css sw.js manifest.webmanifest logo.svg privacy.html terms.html _headers "$OUT/"
-cp -R icons vendor "$OUT/"
+cp index.html app.js cloud.js config.js styles.css sw.js manifest.webmanifest logo.svg privacy.html terms.html get.html robots.txt sitemap.xml og-image.jpg _headers "$OUT/"
+cp -R icons img vendor "$OUT/"
 find "$OUT" -name '.DS_Store' -delete
 
 echo "built ./$OUT ($(find "$OUT" -type f | wc -l | tr -d ' ') files, $(du -sh "$OUT" | cut -f1))"
