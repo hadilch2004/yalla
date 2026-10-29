@@ -1,0 +1,2 @@
+# Google Search Console checks this exact address; serve it directly (no .html redirect)
+/googlea70a0b92ecfc78de.html /gverify.txt 200
